@@ -39,9 +39,12 @@ export class ReportingService {
 
     const { metadata, request, response, cacheEnabled, cacheHit } = report;
 
+    const requestIsoTimestamp = new Date(request.timestamp).toISOString()
+    const responseIsoTimestamp = new Date(response.timestamp).toISOString()
+
     const reportToSave: ReportSchema = {
       id: reportId,
-      timestamp: request.timestamp,
+      timestamp: requestIsoTimestamp,
       organizationId: ownership.organizationId,
       projectId: ownership.projectId,
       promptCost: (calculated as any).promptCost,
@@ -58,11 +61,11 @@ export class ReportingService {
       provider: metadata.provider,
       modelAuthor: "openai",
       type: "ChatCompletion",
-      requestTimestamp: request.timestamp,
+      requestTimestamp: requestIsoTimestamp,
       requestBody: JSON.stringify(request.body),
       isError: (response as any).status !== 200,
       responseStatusCode: (response as any).status,
-      responseTimestamp: response.timestamp,
+      responseTimestamp: responseIsoTimestamp,
       responseBody: JSON.stringify(response.body),
       cacheEnabled: cacheEnabled,
       cacheHit: cacheHit,
