@@ -38,10 +38,13 @@ export class ReportingService {
     const { report, calculated } = buildRequestReport(dto);
 
     const { metadata, request, response, cacheEnabled, cacheHit } = report;
+    const formattedRequestTimestamp = new Date(request.timestamp).toISOString();
+    const formattedResponseTimestamp = new Date(response.timestamp).toISOString();
+
 
     const reportToSave: ReportSchema = {
       id: reportId,
-      timestamp: request.timestamp,
+      timestamp: formattedRequestTimestamp,
       organizationId: ownership.organizationId,
       projectId: ownership.projectId,
       promptCost: (calculated as any).promptCost,
@@ -58,11 +61,11 @@ export class ReportingService {
       provider: metadata.provider,
       modelAuthor: "openai",
       type: "ChatCompletion",
-      requestTimestamp: request.timestamp,
+      requestTimestamp: formattedRequestTimestamp,
       requestBody: JSON.stringify(request.body),
       isError: (response as any).status !== 200,
       responseStatusCode: (response as any).status,
-      responseTimestamp: response.timestamp,
+      responseTimestamp: formattedResponseTimestamp,
       responseBody: JSON.stringify(response.body),
       cacheEnabled: cacheEnabled,
       cacheHit: cacheHit,
@@ -77,7 +80,7 @@ export class ReportingService {
       });
     } catch (error) {
       console.error(error);
-      throw new InternalServerErrorException(`Could not save report`);
+      throw new InternalServerErrorException(`Could not save report ${error.message}`);
     }
 
     return serializeReport(reportToSave);
