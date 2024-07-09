@@ -34,7 +34,7 @@ export const promptProvidersMapping = {
     defaultSettings: {},
   },
   [PromptService.AnthropicCompletion]: {
-    name: "Anthropic (Coming Soon)",
+    name: "Anthropic",
     provider: Provider.Anthropic,
     defaultSettings: {},
   },

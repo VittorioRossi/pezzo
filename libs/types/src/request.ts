@@ -3,6 +3,7 @@ import { Provider } from "./provider.types";
 import { Type } from "class-transformer";
 import { AllPrimitiveTypes, Primitive, RecursiveObject } from "./ts-helpers";
 import OpenAI from "openai";
+import Anthropic from '@anthropic-ai/sdk';
 import { PromptExecutionType } from "./prompt-execution-type";
 
 type ExtractModelNames<T> = T extends { model: infer M } ? M : never;
@@ -28,6 +29,16 @@ export class GenericObservabilityRequestResponseBody {
 
 export class OpenAIObservabilityRequestBody
   implements Partial<OpenAI.Chat.Completions.ChatCompletion>
+{
+  model: AcceptedModels;
+  messages: OpenAI.Chat.CompletionCreateParams["messages"];
+  max_tokens: number;
+  temperature: number;
+  top_p: number;
+}
+
+export class AnthropicObservabilityRequestBody
+  implements Partial< Anthropic2 >
 {
   model: AcceptedModels;
   messages: OpenAI.Chat.CompletionCreateParams["messages"];
