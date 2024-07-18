@@ -1,6 +1,6 @@
 import { CreateReportDto } from "../dto/create-report.dto";
 import { Provider } from "@pezzo/types";
-import { OpenAIToolkit, AnthropicToolkit } from '@pezzo/llm-toolkit'
+import { OpenAIToolkit, AnthropicToolkit } from '@pezzo/llm-toolkit';
 
 export const buildRequestReport = (dto: CreateReportDto) => {
   const requestTimestamp = new Date(dto.request.timestamp);
@@ -10,7 +10,7 @@ export const buildRequestReport = (dto: CreateReportDto) => {
     case Provider.OpenAI:
       return buildOpenAIReport(dto, duration);
     case Provider.Anthropic:
-      return ""
+      return buildAnthropicReport(dto, duration);
     default:
       throw new Error("Unsupported provider");
   }
@@ -82,19 +82,19 @@ const buildAnthropicReport  = (
 
     const { promptCost, completionCost } = AnthropicToolkit.calculateClaudeCosts({
       model: model,
-      promptTokens: usage.prompt_tokens,
-      completionTokens: usage.completion_tokens,
+      promptTokens: usage.input_tokens,
+      completionTokens: usage.output_tokens,
     });
   
-    const totalTokens = usage.prompt_tokens + usage.completion_tokens;
+    const totalTokens = usage.input_tokens + usage.output_tokens;
 
 
     const calculated = {
       promptCost: parseFloat(promptCost.toFixed(6)),
       completionCost: parseFloat(completionCost.toFixed(6)),
       totalCost: parseFloat((promptCost + completionCost).toFixed(6)),
-      promptTokens: usage.prompt_tokens,
-      completionTokens: usage.completion_tokens,
+      promptTokens: usage.input_tokens,
+      completionTokens: usage.output_tokens,
       totalTokens,
       duration: requestDuration,
     };

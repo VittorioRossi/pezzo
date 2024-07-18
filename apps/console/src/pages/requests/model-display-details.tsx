@@ -1,4 +1,5 @@
 import OpenAILogo from "~/assets/providers/openai-logo.png";
+import AnthropicLogo from "~/assets/providers/anthropic-logo.png";
 import MistralLogo from "~/assets/providers/mistral-logo.png";
 import MetaLogo from "~/assets/providers/meta-logo.png";
 
@@ -17,6 +18,11 @@ export const modelAuthorDetails = {
     image: MetaLogo,
     name: "Meta",
     color: "#579BE0",
+  },
+  anthropic: {
+    image: AnthropicLogo,
+    name: "Anthropic",
+    color: "#cc9b7a",
   },
 };
 

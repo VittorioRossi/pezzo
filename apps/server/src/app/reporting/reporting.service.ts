@@ -60,7 +60,7 @@ export class ReportingService {
       clientVersion: metadata.clientVersion,
       model: request.body.model,
       provider: metadata.provider,
-      modelAuthor: "openai",
+      modelAuthor: metadata.provider,
       type: "ChatCompletion",
       requestTimestamp: requestIso,
       requestBody: JSON.stringify(request.body),
